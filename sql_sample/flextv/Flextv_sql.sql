@@ -12,7 +12,7 @@
 	 primary key (id)
    );
 		
-		--dumping data for table customer
+		--dumping data for table customer--
 		
 		INSERT INTO customer
 		 (id,first_name,last_name,email_address,phone)
@@ -29,7 +29,7 @@
 			   (9,'James','Jude','James@yahoo.com',08086593845),
 				  (10,'Ruth','Benz','Ruth@gmail.com',08034928020);
 		
-	--table structure for payment	
+	--table structure for payment--	
 
 		
 		
@@ -48,7 +48,7 @@
 		 
 		
 		
-		 --dumping data for table payment 
+		 --dumping data for table payment-- 
 	  
 	  
 	   INSERT INTO payment
@@ -68,7 +68,7 @@
 		(10,10,'Basic','APP',3500,0.2,'2023-06-29','Nigeria');
 		
 		
-		--constraint for table customer
+		--constraint for table customer--
 		
 		ALTER TABLE customer
 		
@@ -83,16 +83,16 @@
 	 REFERENCES "customer" ("id");
 	 
      
-	 --update discount_price column with price after 20% discount 
+	 --update discount_price column with price after 20% discount-- 
 
      UPDATE payment
 	 SET discount_price  = (actual_price - actual_price * discount_price);
 	 
 	 --how amny customers subscribed in the month of june?
 	 
-	 SELECT COUNT(*) FROM customer
+	 SELECT COUNT(*) FROM customer;
 	 
-    --how many customers subscribed with 4000 or more and what country ?
+    --how many customers subscribed with 4000 or more and what country?--
 	
 	SELECT COUNT(customer_id),country,discount_price AS cal_discount_price
 	             FROM payment 
@@ -100,7 +100,7 @@
 				 GROUP BY cal_discount_price, country;
 				 
 				 
-	--list the first 5 customers to subscribe. return customer's name,email,country, and payment date.
+	--list the first 5 customers to subscribe. return customer's name,email,country, and payment date--
 	
 	SELECT DISTINCT (customer_id),first_name,last_name,email_address,Country,payment_date
 	FROM customer
@@ -109,15 +109,15 @@
 	LIMIT 5;
 	
 	
-	--how many subscribers are from Ghana subscribers
+	--how many subscribers are from Ghana subscribers--
 	
 	SELECT COUNT(*) FROM payment
 	
-	WHERE country LIKE '%Ghana'
+	WHERE country LIKE '%Ghana';
 	
 	
 	 
-   --What meduim was least used  for payment
+   --What medium was least used  for payment--
    
   
    SELECT DISTINCT subscription_medium,COUNT(*)  FROM payment
@@ -128,24 +128,27 @@
 	LIMIT 1;
    
    
-   -- list customer id's with minimum discount price (subquery)
+   -- list customer id's with minimum discount price (subquery)--
    
    SELECT customer_id,discount_price FROM payment
    
-   WHERE discount_price = (SELECT MIN(discount_price) from payment);
+   WHERE discount_price = (SELECT MIN(discount_price) FROM payment);
    
-   
-  ALTER TABLE payment RENAME discount_price to d_price
+   --renmae column discount_price to d_price--
+
+  ALTER TABLE payment RENAME discount_price TO d_price ;
   
-  SELECT * FROM payment
-  
+  SELECT * FROM payment ;
+
+	  --categorize price by status eg. 'Hight', 'Standard', and 'Low' with the case statement--
+	  
   SELECT d_price,
   
   CASE 
   
- WHEN d_price <=2800 then 'L'
+ WHEN d_price <=2800 THEN 'L'
  
- WHEN d_price =4000 then 'H'
+ WHEN d_price =4000 THEN 'H'
   ELSE 'S'
   
   END
@@ -153,7 +156,7 @@
   FROM payment;
   
   
-  -- creanting an index
+  -- create an index--
   
   CREATE INDEX sales ON  payment (customer_id,subscription_type,d_price,country);
   
